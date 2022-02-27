@@ -1,27 +1,30 @@
 <script setup>
 import { defineEmits, ref } from 'vue';
+import { useTodoStore } from '../composables';
+
+const { addTodo } = useTodoStore();
 
 const todoTitle = ref('');
-const emit = defineEmits(['newTodo']);
 
-const addTodo = () => {
+const handleSubmit = () => {
   const title = todoTitle.value;
   if (title.length === 0) return;
 
   const newTodo = {
-    id: Date.now(),
+    id: window.crypto?.randomUUID() || Date.now(),
     userId: 1,
     title,
     completed: false,
   };
 
-  emit('newTodo', { todo: newTodo });
+  addTodo(newTodo);
+
   todoTitle.value = '';
 };
 </script>
 
 <template>
-  <form @submit.prevent="addTodo" class="flex justify-center gap-2">
+  <form @submit.prevent="handleSubmit" class="flex justify-center gap-2">
     <input
       type="text"
       v-model.trim="todoTitle"

@@ -1,30 +1,22 @@
 <script setup>
 import { ref, onMounted, defineEmits } from 'vue';
 
+import { useTodoStore } from '../composables';
+
 import IconTrash from './icons/IconTrash.vue';
 
-const { isCompleted, id } = defineProps({
+const { toggleComplete, deleteTodo } = useTodoStore();
+
+defineProps({
   title: String,
-  isCompleted: Boolean,
+  completed: Boolean,
   id: String,
 });
-
-const emit = defineEmits(['delete']);
-
-const completed = ref(isCompleted);
-
-const toogleCompleted = () => {
-  completed.value = !completed.value;
-};
-
-const onDelete = () => {
-  emit('delete', { id });
-};
 </script>
 
 <template>
   <li
-    @click="toogleCompleted"
+    @click="toggleComplete(id)"
     class="
       bg-indigo-400
       p-3
@@ -44,7 +36,7 @@ const onDelete = () => {
       {{ title }}
     </strong>
 
-    <button @click="onDelete" class="p-2 bg-indigo-900 rounded-full">
+    <button @click="deleteTodo(id)" class="p-2 bg-indigo-900 rounded-full">
       <IconTrash classes="h-4 w-4 text-white" />
     </button>
   </li>

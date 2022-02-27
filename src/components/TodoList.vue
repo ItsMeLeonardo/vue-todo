@@ -1,37 +1,29 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+import { useTodoStore } from '../composables';
+
 import TodoItem from './TodoItem.vue';
 import TodoInput from './TodoInput.vue';
 import { getTodos } from '../service/getTodos.js';
 
-const todos = ref([]);
-const inputTitle = ref('');
+const { todos } = useTodoStore();
 
 onMounted(async () => {
   // todos.value = await getTodos();
 });
-
-const addTodo = ({ todo }) => {
-  todos.value.unshift(todo);
-};
-
-const deleteTodo = ({ id }) => {
-  todos.value = todos.value.filter((todo) => todo.id !== id);
-};
 </script>
 
 <template>
-  <TodoInput @newTodo="addTodo" />
+  <TodoInput />
 
   <ul v-if="todos" class="flex flex-col gap-2">
     <TodoItem
-      v-for="todo in todos.slice(0, 10)"
+      v-for="todo in todos"
       :key="todo.id"
       :id="todo.id"
       :title="todo.title"
-      :isCompleted="todo.completed"
-      @delete="deleteTodo"
+      :completed="todo.completed"
     />
   </ul>
   <span v-else="todos">loading ...</span>
