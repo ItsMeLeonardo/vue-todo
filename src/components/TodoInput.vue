@@ -1,8 +1,9 @@
 <script setup>
 import { defineEmits, ref } from 'vue';
-import { useTodoStore } from '../composables';
 
-const { addTodo } = useTodoStore();
+import { useTodoStore } from '../store/piniaStore';
+
+const todoStore = useTodoStore();
 
 const todoTitle = ref('');
 
@@ -11,13 +12,13 @@ const handleSubmit = () => {
   if (title.length === 0) return;
 
   const newTodo = {
-    id: window.crypto?.randomUUID() || Date.now(),
+    id: Date.now(),
     userId: 1,
     title,
     completed: false,
   };
 
-  addTodo(newTodo);
+  todoStore.addTodo(newTodo);
 
   todoTitle.value = '';
 };

@@ -1,11 +1,11 @@
 <script setup>
 import { ref, onMounted, defineEmits } from 'vue';
 
-import { useTodoStore } from '../composables';
+import { useTodoStore } from '../store/piniaStore';
 
 import IconTrash from './icons/IconTrash.vue';
 
-const { toggleComplete, deleteTodo } = useTodoStore();
+const todoStore = useTodoStore();
 
 defineProps({
   title: String,
@@ -16,7 +16,7 @@ defineProps({
 
 <template>
   <li
-    @click="toggleComplete(id)"
+    @click="todoStore.toggleComplete(id)"
     class="
       bg-indigo-400
       p-3
@@ -36,7 +36,7 @@ defineProps({
       {{ title }}
     </strong>
 
-    <button @click="deleteTodo(id)" class="p-2 bg-indigo-900 rounded-full">
+    <button @click="todoStore.deleteTodo(id)" class="p-2 bg-indigo-900 rounded-full">
       <IconTrash classes="h-4 w-4 text-white" />
     </button>
   </li>

@@ -1,13 +1,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
-import { useTodoStore } from '../composables';
+import { useTodoStore } from '../store/piniaStore';
 
 import TodoItem from './TodoItem.vue';
 import TodoInput from './TodoInput.vue';
 import { getTodos } from '../service/getTodos.js';
 
-const { todos } = useTodoStore();
+const todoStore = useTodoStore();
+
+const { todos } = storeToRefs(todoStore);
 
 onMounted(async () => {
   // todos.value = await getTodos();
